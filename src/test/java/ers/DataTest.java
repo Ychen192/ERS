@@ -2,31 +2,44 @@ package ers;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
+import beans.ReimbType;
 import beans.Reimbursement;
 import beans.Users;
+import dataTier.ReimbTypeDAO;
 import dataTier.ReimbursementDAO;
 import dataTier.ServiceLocator;
 import dataTier.UsersDAO;
 
 public class DataTest {
 	public static void main(String[] args) throws SQLException, Exception {
-
-		//getReimbursementByUserIdTest(2);
 		
+		
+		// getAllReimbTypeTest();
+		// getReimbursementByUserIdTest(2);
 		// getUsersByNameTest("user");
 		// getAllUsersTest();
-		String[] idList = {"92","710","669","945","387"};
-		updateReimbursementStatusTest(idList);
+		
+			String[] idList = {"1", "2"};
+			updateReimbursementStatusTest( idList,1 );
 		getAllReimbursementViewTest();
 	}
 	
-	
-	public static void updateReimbursementStatusTest(String[] idList) throws SQLException, Exception{
+	public static void getAllReimbTypeTest() throws SQLException, Exception {
 		Connection conn = ServiceLocator.getErsDatabase().getConnection();
-		new ReimbursementDAO(conn).changeReimbStatusToAccept(idList);
+		List<ReimbType> reimbTypeList = new ReimbTypeDAO(conn).getAllReimbType();
+		for (ReimbType type : reimbTypeList) {
+			System.out.println(type);
+		}
+		System.out.println("done");
+	}
+	
+	
+	public static void updateReimbursementStatusTest(String[] idList, int authorID) throws SQLException, Exception{
+		Connection conn = ServiceLocator.getErsDatabase().getConnection();
+		new ReimbursementDAO(conn).changeReimbStatusToAccept(idList, authorID);
+		System.out.println("done");
 	}
 	
 
@@ -36,6 +49,7 @@ public class DataTest {
 		for (Reimbursement reimb : reimbList) {
 			System.out.println(reimb);
 		}
+		System.out.println("done");
 	}
 
 	public static void getAllReimbursementViewTest() throws SQLException, Exception {
@@ -44,6 +58,7 @@ public class DataTest {
 		for (Reimbursement reimb : reimbList) {
 			System.out.println(reimb);
 		}
+		System.out.println("done");
 	}
 
 	public static void getAllUsersTest() throws SQLException, Exception {
@@ -52,11 +67,14 @@ public class DataTest {
 		for (Users u : userList) {
 			System.out.println(u);
 		}
+		System.out.println("done");
 	}
 
 	public static void getUsersByNameTest(String username) throws SQLException, Exception {
 		Connection conn = ServiceLocator.getErsDatabase().getConnection();
 		Users user = new UsersDAO(conn).getUserByName(username);
 		System.out.println(user);
+		System.out.println("done");
 	}
+	
 }

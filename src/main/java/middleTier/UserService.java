@@ -5,10 +5,11 @@ import java.util.List;
 
 import javax.naming.AuthenticationException;
 
+import beans.ReimbRecord;
+import beans.ReimbType;
 import beans.Reimbursement;
 import beans.Users;
 import dataTier.Facade;
-import dataTier.ReimbursementDAO;
 
 public class UserService {
 
@@ -32,11 +33,21 @@ public class UserService {
 		return new Facade().retrieveReimbursementsByUserId(userId);
 	}
 
-	public void approveReimbursement(String[] idList) throws SQLException {
-		new Facade().approveReimbursements(idList);
+	public void approveReimbursement(String[] idList, int resolverID) throws SQLException {
+		new Facade().approveReimbursements(idList, resolverID);
 	}
 
-	public void denyReimbursement(String[] idList) throws SQLException {
-		new Facade().denyReimbursements(idList);
+	public void denyReimbursement(String[] idList, int resolverID) throws SQLException {
+		new Facade().denyReimbursements(idList, resolverID);
 	}
+
+	public List<ReimbType> retrieveAllReimbType() throws SQLException {
+		return new Facade().retrieveAllReimbType();
+	}
+	
+	public void createNewReimbursement( ReimbRecord reimb ) throws SQLException {
+		new Facade().insert(reimb);
+	}
+	
+	
 }

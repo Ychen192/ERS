@@ -15,11 +15,6 @@ public class Reimbursement {
 	private String status;
 	private String type;
 
-	public Reimbursement() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
 	public Reimbursement(int id, int amount, Timestamp timeSubmitted, Timestamp timeResolved, String description,
 			String author, String resolver, String status, String type) {
 		super();

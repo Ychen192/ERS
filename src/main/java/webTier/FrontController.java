@@ -2,14 +2,28 @@ package webTier;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import beans.ReimbType;
+
 @SuppressWarnings("serial")
 public class FrontController extends HttpServlet {
+
+	@Override
+	public void init() throws ServletException {
+		// overriding init() to use ServletContext
+		try {
+			List<ReimbType> listOfTypeObject = new MainController().getListOfReimbType();
+			this.getServletContext().setAttribute("listOfType", listOfTypeObject);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -36,17 +50,15 @@ public class FrontController extends HttpServlet {
 			}
 			break;
 		}
-
 		case "/ers/employee.do": {
+
 			request.getRequestDispatcher("/secure/eReimbursement.jsp").forward(request, response);
 			break;
 		}
-
 		case "/ers/manager.do": {
 			request.getRequestDispatcher("/secure/mReimbursement.jsp").forward(request, response);
 			break;
 		}
-
 		case "/ers/updateStatus.do": {
 			try {
 				new MainController().udpateReimbursementStatus(request, response);
@@ -56,10 +68,20 @@ public class FrontController extends HttpServlet {
 			}
 			break;
 		}
-
+		case "/ers/submitReimbursement.do": {
+			try {
+				new MainController().submitNewReimbursement(request, response);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			break;
+		}
 		default: {
 			response.setStatus(404);
 		}
 		}
 	}
 }
+
+
+

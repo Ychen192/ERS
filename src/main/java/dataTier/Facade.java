@@ -5,6 +5,8 @@ import java.sql.SQLException;
 //import java.sql.Timestamp;
 import java.util.List;
 
+import beans.ReimbRecord;
+import beans.ReimbType;
 import beans.Reimbursement;
 import beans.Users;
 
@@ -25,13 +27,9 @@ public class Facade {
 	}
 
 	// insert one reimbursement object into DB
-	/*
-	 * public void insert(Reimbursement reimb) throws SQLException { //
-	 * Timestamp submitted = new Timestamp( System.currentTimeMillis() ); //
-	 * Timestamp resolved = new Timestamp( System.currentTimeMillis() ); //
-	 * reimb = new Reimbursement(7, 200, submitted, resolved, "descriptions //
-	 * of stuff", 1, 1, 1, 1); new ReimbursementDAO(conn).insert(reimb); }
-	 */
+	public void insert(ReimbRecord reimb) throws SQLException {
+		new ReimbRecordDAO(conn).insert(reimb);
+	}
 
 	// insert one User object into DB
 	public void insert(Users user) throws SQLException {
@@ -54,22 +52,25 @@ public class Facade {
 	public Users retrieveUserByUsername(String username) throws SQLException {
 		return new UsersDAO(conn).getUserByName(username);
 	}
-	
+
 	// retrieve reimbursements by user id
 	public List<Reimbursement> retrieveReimbursementsByUserId(int userId) throws SQLException {
-		return new ReimbursementDAO(conn).getReimbursementsByUserId( userId );
+		return new ReimbursementDAO(conn).getReimbursementsByUserId(userId);
 	}
-	
+
 	// approve the reimbursements status given list of reimbursement_id
-	public void approveReimbursements(String[] idList) throws SQLException{
-		new ReimbursementDAO(conn).changeReimbStatusToAccept(idList);
+	public void approveReimbursements(String[] idList, int resolverID) throws SQLException {
+		new ReimbursementDAO(conn).changeReimbStatusToAccept(idList, resolverID);
 	}
-	
+
 	// deny the reimbursements status given list of reimbursement_id
-	public void denyReimbursements(String[] idList) throws SQLException{
-		new ReimbursementDAO(conn).changeReimbStatusToDenied(idList);
+	public void denyReimbursements(String[] idList, int resolverID) throws SQLException {
+		new ReimbursementDAO(conn).changeReimbStatusToDenied(idList, resolverID);
 	}
-	
-	
+
+	// retrieve all ReimbType data
+	public List<ReimbType> retrieveAllReimbType() throws SQLException {
+		return new ReimbTypeDAO(conn).getAllReimbType();
+	}
 
 }

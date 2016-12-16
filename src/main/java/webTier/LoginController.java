@@ -21,7 +21,7 @@ public class LoginController {
 
 		try {
 			Users session = new BusinessDelegate().login(user, pass);
-			request.setAttribute("user", session);
+			request.getSession().setAttribute("user", session);
 			request.setAttribute("name", "Hello " + session.getFirstName() + " " + session.getLastName());
 
 			if (session.getRoleID() == 2) {

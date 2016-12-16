@@ -36,6 +36,7 @@ public class UsersDAO {
 			stmt.setString(6, user.getEmail());
 			stmt.setInt(7, user.getRoleID());
 			stmt.executeUpdate();
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -53,7 +54,7 @@ public class UsersDAO {
 					rs.getString(6), rs.getInt(7));
 			userList.add(user);
 		}
-
+		conn.close();
 		return userList;
 	}
 
@@ -71,6 +72,7 @@ public class UsersDAO {
 			user = new Users(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
 					rs.getString(6), rs.getInt(7));
 		}
+		conn.close();
 		return user;
 	}
 

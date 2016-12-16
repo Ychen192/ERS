@@ -20,6 +20,7 @@ public class UserRoleDAO {
 		stmt.setInt(1, userRoleID);
 		stmt.setString(2, userRole);
 		stmt.executeUpdate();
+		conn.close();
 	}
 
 	public void getAll() throws SQLException {
@@ -32,7 +33,7 @@ public class UserRoleDAO {
 			String name = rs.getString("USER_ROLE");
 			System.out.println(id + " " + name);
 		}
-
+		conn.close();
 	}
 
 }
