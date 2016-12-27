@@ -26,7 +26,7 @@ public class UsersDAO {
 
 	public void insert(Users user) throws SQLException {
 		try {
-			String sql = "INSERT INTO ERS_USERS VALUES (?, ?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO ERS_USERS VALUES(?, ?, ?, ?, ?, ?, ?) ";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, user.getUserID());
 			stmt.setString(2, user.getUserName());
@@ -35,7 +35,9 @@ public class UsersDAO {
 			stmt.setString(5, user.getLastName());
 			stmt.setString(6, user.getEmail());
 			stmt.setInt(7, user.getRoleID());
+
 			stmt.executeUpdate();
+			System.out.println("executed");
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();

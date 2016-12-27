@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 public class Reimbursement {
 
 	private int id;
-	private int amount;
+	private double amount;
 	private Timestamp timeSubmitted;
 	private Timestamp timeResolved;
 	private String description;
@@ -15,7 +15,7 @@ public class Reimbursement {
 	private String status;
 	private String type;
 
-	public Reimbursement(int id, int amount, Timestamp timeSubmitted, Timestamp timeResolved, String description,
+	public Reimbursement(int id, double amount, Timestamp timeSubmitted, Timestamp timeResolved, String description,
 			String author, String resolver, String status, String type) {
 		super();
 		this.id = id;
@@ -37,11 +37,11 @@ public class Reimbursement {
 		this.id = id;
 	}
 
-	public int getAmount() {
+	public double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(int amount) {
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}
 
@@ -103,8 +103,8 @@ public class Reimbursement {
 
 	@Override
 	public String toString() {
-		return "Reimbursement( [id:" + id + ", amount:" + amount + ", timeSubmitted:" + timeSubmitted
+		return "Reimbursement(id:" + id + ", amount:" + amount + ", timeSubmitted:" + timeSubmitted
 				+ ", timeResolved:" + timeResolved + ", description:" + description + ", author:" + author
-				+ ", resolver:" + resolver + ", status:" + status + ", type:" + type;
+				+ ", resolver:" + resolver + ", status:" + status + ", type:" + type +") ";
 	}
 }

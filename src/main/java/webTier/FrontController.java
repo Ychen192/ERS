@@ -22,7 +22,7 @@ public class FrontController extends HttpServlet {
 			this.getServletContext().setAttribute("listOfType", listOfTypeObject);
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}		
+		}
 	}
 
 	@Override
@@ -51,11 +51,12 @@ public class FrontController extends HttpServlet {
 			break;
 		}
 		case "/ers/employee.do": {
-
+			loginCtrl.validateSession(request, response);
 			request.getRequestDispatcher("/secure/eReimbursement.jsp").forward(request, response);
 			break;
 		}
 		case "/ers/manager.do": {
+			loginCtrl.validateSession(request, response);
 			request.getRequestDispatcher("/secure/mReimbursement.jsp").forward(request, response);
 			break;
 		}
@@ -76,12 +77,14 @@ public class FrontController extends HttpServlet {
 			}
 			break;
 		}
+		case "/ers/logOut.do": {
+			request.getSession().invalidate();
+			request.getRequestDispatcher("login.jsp").forward(request, response);
+			break;
+		}
 		default: {
 			response.setStatus(404);
 		}
 		}
 	}
 }
-
-
-

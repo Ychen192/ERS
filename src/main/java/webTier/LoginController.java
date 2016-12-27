@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.naming.AuthenticationException;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,8 +23,9 @@ public class LoginController {
 		try {
 			Users session = new BusinessDelegate().login(user, pass);
 			request.getSession().setAttribute("user", session);
-			request.setAttribute("name", "Hello " + session.getFirstName() + " " + session.getLastName());
-
+			request.setAttribute("name", session.getFirstName() + " " + session.getLastName());
+			request.getSession().setMaxInactiveInterval(15*60);
+			
 			if (session.getRoleID() == 2) {
 				List<Reimbursement> list = new BusinessDelegate().getAllReimbursement();
 				request.setAttribute("list", list);
@@ -35,11 +37,20 @@ public class LoginController {
 				request.getRequestDispatcher("employee.do").forward(request, response);
 			}
 		} catch (AuthenticationException e) {
-			request.setAttribute("authFailed", "Incorrect username password combination!");
+			request.setAttribute("authFailed", "Incorrect password! ");
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 		} catch (SQLException e) {
 			request.setAttribute("authFailed", "Connection error!");
 			request.getRequestDispatcher("login.jsp").forward(request, response);
+		}
+	}
+	
+	public Users validateSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if( request.getSession().getAttribute("user") != null ){
+			return (Users) request.getSession().getAttribute("user");
+		}else{
+			request.getRequestDispatcher("/error/403.html").forward(request, response);
+			return null;
 		}
 	}
 

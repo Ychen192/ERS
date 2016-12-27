@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import beans.ReimbType;
 import beans.Reimbursement;
 import beans.Users;
@@ -16,14 +18,28 @@ public class DataTest {
 	public static void main(String[] args) throws SQLException, Exception {
 		
 		
+		// insertUserTest();
+		// getAllReimbursementViewTest();
 		// getAllReimbTypeTest();
 		// getReimbursementByUserIdTest(2);
 		// getUsersByNameTest("user");
 		// getAllUsersTest();
 		
+		/*
 			String[] idList = {"1", "2"};
 			updateReimbursementStatusTest( idList,1 );
-		getAllReimbursementViewTest();
+			getAllReimbursementViewTest();
+		*/
+	}
+	
+	
+	public static void insertUserTest() throws SQLException, Exception {
+		Connection conn = ServiceLocator.getErsDatabase().getConnection();
+		
+		String hashed = BCrypt.hashpw("pass", BCrypt.gensalt());
+		Users user =  new Users(103, "admin", hashed, "Yan", "Chen", "YanChen@comp.com", 2);
+		new UsersDAO(conn).insert( user);
+		System.out.println("done");
 	}
 	
 	public static void getAllReimbTypeTest() throws SQLException, Exception {

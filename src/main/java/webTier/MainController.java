@@ -40,6 +40,7 @@ public class MainController {
 
 		// Re-fetch the data, then refresh the page
 		List<Reimbursement> list = new BusinessDelegate().getAllReimbursement();
+		request.setAttribute("name", session.getFirstName() + " " + session.getLastName());
 		request.setAttribute("list", list);
 		request.getRequestDispatcher("/secure/mReimbursement.jsp").forward(request, response);
 	}
@@ -55,7 +56,8 @@ public class MainController {
 		
 		Users session = (Users) request.getSession().getAttribute("user");
 		
-		int reimbID = Integer.parseInt( request.getParameter("rID") );
+		//int reimbID = Integer.parseInt( request.getParameter("rID") );
+		int reimbID = 1; //sequence created in db to auto assign id
 		float reimbAmount = Float.parseFloat(request.getParameter("rAmount"));
 		Timestamp timeSubmitted = new Timestamp( System.currentTimeMillis() );
 		String reimbDescription = request.getParameter("rDescription");
@@ -67,7 +69,8 @@ public class MainController {
 		new UserService().createNewReimbursement(newRec);
 		
 		// Re-fetch the data, then refresh the page
-		List<Reimbursement> list = new BusinessDelegate().getAllReimbursement();
+		List<Reimbursement> list = new BusinessDelegate().getReimbursementByUserId(session.getUserID());
+		request.setAttribute("name", session.getFirstName() + " " + session.getLastName());
 		request.setAttribute("list", list);
 		request.getRequestDispatcher("/secure/eReimbursement.jsp").forward(request, response);
 	}
